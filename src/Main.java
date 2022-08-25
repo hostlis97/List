@@ -6,11 +6,11 @@ import static com.sun.tools.javac.util.StringUtils.toLowerCase;
 
 public class Main {
     public static void main(String[] args) {
-        List<String> spisok = new ArrayList<>();
+        List<String> list = new ArrayList<>();
         Scanner s = new Scanner(System.in);
         String operation;
 
-        while (true){
+        while (true) {
             System.out.println("Выберете операцию:");
             System.out.println("1. Добавить покупку");
             System.out.println("2. Показать покупки");
@@ -20,19 +20,19 @@ public class Main {
             try {
                 switch (Integer.parseInt(operation)) {
                     case 1: {
-                        add(s,spisok);
+                        add(s, list);
                         continue;
                     }
                     case 2: {
-                        show(spisok);
+                        show(list);
                         continue;
                     }
                     case 3: {
-                        delete(s,spisok);
+                        delete(s, list);
                         continue;
                     }
                     case 4: {
-                        search(s,spisok);
+                        search(s, list);
                         continue;
                     }
                     default: {
@@ -48,50 +48,51 @@ public class Main {
         }
     }
 
-    public static void add(Scanner s, List spisok) {
+    public static void add(Scanner s, List<String> list) {
         System.out.println("Какую покупку хотите добавить?");
-        spisok.add(s.nextLine());
-        System.out.println("Итого в списке покупок: " + spisok.size());
+        list.add(s.nextLine());
+        System.out.println("Итого в списке покупок: " + list.size());
     }
 
-    public static void show(List spisok) {
-        if (spisok.isEmpty()) {
+    public static void show(List<String> list) {
+        if (list.isEmpty()) {
             System.out.println("Список покупок пуст!");
         } else {
             System.out.println("Список покупок:");
-            for (int i = 0; i < spisok.size(); i++) {
-                System.out.println(i + 1 + ". " + spisok.get(i));
+            for (int i = 0; i < list.size(); i++) {
+                System.out.println(i + 1 + ". " + list.get(i));
             }
         }
     }
-    public static void delete(Scanner s,List spisok){
-        if (spisok.isEmpty()) {
+
+    public static void delete(Scanner s, List<String> list) {
+        if (list.isEmpty()) {
             System.out.println("Список покупок пуст!");
             return;
         }
-        show(spisok);
+        show(list);
         System.out.println("Какую хотите удалить? Введите номер или название");
         String del = s.nextLine();
         try {
             int delInt = Integer.parseInt(del);
-            System.out.print("Покупка \"" + spisok.get(delInt - 1) + "\" удалена, ");
-            spisok.remove(delInt - 1);
-            show(spisok);
+            System.out.print("Покупка \"" + list.get(delInt - 1) + "\" удалена, ");
+            list.remove(delInt - 1);
+            show(list);
         } catch (IndexOutOfBoundsException err) {
             System.out.print("Покупки под номером \"" + del + "\" не найдено в списке покупок, ");
-        }
-         catch (NumberFormatException err) {
-            if (!spisok.remove(del)) {
+        } catch (NumberFormatException err) {
+            if (!list.remove(del)) {
                 System.out.print("\"" + del + "\" не найдено в списке покупок, ");
             } else {
                 System.out.print("Покупка \"" + del + "\" удалена, ");
-                spisok.remove(del);
-                show(spisok);
+                list.remove(del);
+                show(list);
             }
         }
     }
-    public static void search(Scanner s,List spisok) {
-        if (spisok.isEmpty()) {
+
+    public static void search(Scanner s, List<String> list) {
+        if (list.isEmpty()) {
             System.out.println("Список покупок пуст!");
             return;
         }
@@ -101,10 +102,10 @@ public class Main {
         String itemLower;
         boolean isSearch = false;
         System.out.println("Найдено:");
-        for (int i = 0; i < spisok.size(); i++) {
-            itemLower = toLowerCase((String)spisok.get(i));
-            if (itemLower.contains(queryLower)){
-                System.out.println(i+1 + "." + spisok.get(i));
+        for (int i = 0; i < list.size(); i++) {
+            itemLower = toLowerCase((String) list.get(i));
+            if (itemLower.contains(queryLower)) {
+                System.out.println(i + 1 + "." + list.get(i));
                 isSearch = true;
             }
         }
