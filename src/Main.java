@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static com.sun.tools.javac.util.StringUtils.toLowerCase;
+
 public class Main {
     public static void main(String[] args) {
         List<String> spisok = new ArrayList<>();
@@ -13,6 +15,7 @@ public class Main {
             System.out.println("1. Добавить покупку");
             System.out.println("2. Показать покупки");
             System.out.println("3. Удалить покупку");
+            System.out.println("4. Найти покупку");
             operation = s.nextLine();
             try {
                 switch (Integer.parseInt(operation)) {
@@ -26,6 +29,10 @@ public class Main {
                     }
                     case 3: {
                         delete(s,spisok);
+                        continue;
+                    }
+                    case 4: {
+                        search(s,spisok);
                         continue;
                     }
                     default: {
@@ -81,6 +88,28 @@ public class Main {
                 spisok.remove(del);
                 show(spisok);
             }
+        }
+    }
+    public static void search(Scanner s,List spisok) {
+        if (spisok.isEmpty()) {
+            System.out.println("Список покупок пуст!");
+            return;
+        }
+        System.out.println("Введите текст для поиска:");
+        String search = s.nextLine();
+        String queryLower = toLowerCase(search);
+        String itemLower;
+        boolean isSearch = false;
+        System.out.println("Найдено:");
+        for (int i = 0; i < spisok.size(); i++) {
+            itemLower = toLowerCase((String)spisok.get(i));
+            if (itemLower.contains(queryLower)){
+                System.out.println(i+1 + "." + spisok.get(i));
+                isSearch = true;
+            }
+        }
+        if (!isSearch) {
+            System.out.print("\"" + search + "\" не найдено в списке покупок, ");
         }
     }
 }
